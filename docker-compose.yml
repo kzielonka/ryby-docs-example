@@ -1,0 +1,22 @@
+version: "3"
+services:
+  server:
+    image: ruby:2.7.1
+    working_dir: /app
+    entrypoint: /app/docker-entrypoint.sh
+    command: start
+    volumes:
+      - .:/app
+      - gems:/usr/local/bundle
+      - doc:/app/doc/api
+    ports:
+      - "3000:3000"
+  coverage:
+    image: httpd:2.4-alpine
+    volumes:
+      - doc:/usr/local/apache2/htdocs:nocopy
+    ports:
+      - "4000:80"
+volumes:
+  gems:
+  doc:
